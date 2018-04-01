@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% load static %}
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+        <title>IIT-Delhi Experiment</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="{% static 'samar/js/recorder.js' %}"></script>
+        <script>
+            var question_index = 0;
+            var question_list = JSON.parse("{{ question_list|escapejs|safe }}").question_json_list;
+            console.log(question_list);
+            console.log(question_list.length);
+            var worker_path = "{% static 'samar/js/recorderWorker.js' %}";
+            var upload_url = "{% url 'samar:upload' %}";
+        </script>
+        <link rel="stylesheet" href="{% static 'samar/css/style.css' %}">
+    </head>
+    <body>
+        
+        <div id="controls">
+            <img id="record" src="{% static 'samar/images/mic128.png' %}" onclick="toggleRecording(this);">
+            <!-- <a id="save" href="#"><img src="{% static 'samar/images/save.svg' %}"></a> -->
+        </div>
+    </body>
+    <script src="{% static 'samar/js/csrf_ajax.js' %}"></script>
+    <script src="{% static 'samar/js/main.js' %}"></script>
+</html>
