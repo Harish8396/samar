@@ -17,21 +17,25 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
 var audioContext = new AudioContext();
 var audioRecorder = null;
+var question = document.getElementById('question');
+var controls = document.getElementById('controls');
+var audio_index = 0;
 
 function saveAudio() {
     audioRecorder.exportWAV( doneEncoding );
 }
 
-function gotBuffers( buffers ) {
+function gotBuffers(buffers) {
     audioRecorder.exportWAV( doneEncoding );
 }
 
-function doneEncoding( blob ) {
+function doneEncoding(blob) {
     var csrftoken = getCookie('csrftoken');
  
     var xhr = new XMLHttpRequest();
     xhr.open('POST', upload_url, true);
     xhr.setRequestHeader("X-CSRFToken", csrftoken);
+    xhr.setRequestHeader("index", audio_index++);
 
     xhr.upload.onloadend = function() {
         console.log('Upload complete');
@@ -46,6 +50,12 @@ function toggleRecording( e ) {
         audioRecorder.stop();
         e.classList.remove("recording");
         audioRecorder.getBuffers( gotBuffers );
+
+        if (question_index == question_list.length) {
+            end_test();
+        } else {
+            question.innerText = question_list[question_index++];
+        }
     } else {
         // start recording
         if (!audioRecorder)
@@ -62,12 +72,18 @@ function gotStream(stream) {
 }
 
 function initAudio() {
-        if (!navigator.getUserMedia)
-            navigator.getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-        if (!navigator.cancelAnimationFrame)
-            navigator.cancelAnimationFrame = navigator.webkitCancelAnimationFrame || navigator.mozCancelAnimationFrame;
-        if (!navigator.requestAnimationFrame)
-            navigator.requestAnimationFrame = navigator.webkitRequestAnimationFrame || navigator.mozRequestAnimationFrame;
+    if (question_index == question_list.length) {
+        end_test();
+    } else {
+        question.innerText = question_list[question_index++];
+    }
+
+    if (!navigator.getUserMedia)
+        navigator.getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+    if (!navigator.cancelAnimationFrame)
+        navigator.cancelAnimationFrame = navigator.webkitCancelAnimationFrame || navigator.mozCancelAnimationFrame;
+    if (!navigator.requestAnimationFrame)
+        navigator.requestAnimationFrame = navigator.webkitRequestAnimationFrame || navigator.mozRequestAnimationFrame;
 
     navigator.getUserMedia(
         {
@@ -87,3 +103,8 @@ function initAudio() {
 }
 
 window.addEventListener('load', initAudio );
+
+function end_test() {
+    question.innerText = 'Your test has ended.';
+    controls.hidden = true;
+}

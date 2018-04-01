@@ -29,6 +29,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 @csrf_exempt
 def upload(request):
-    with open('sample.ogg', 'wb') as file:
+    question_index = request.META['HTTP_INDEX']
+    with open(question_index + '.ogg', 'wb') as file:
         file.write(request.body)
     return JsonResponse({'message': 'From django to unchained.'})
