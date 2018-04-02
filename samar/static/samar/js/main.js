@@ -19,7 +19,8 @@ var audioContext = new AudioContext();
 var audioRecorder = null;
 var question = document.getElementById('question');
 var controls = document.getElementById('controls');
-var audio_index = 0;
+var audio_index;
+var participant_id;
 
 function saveAudio() {
     audioRecorder.exportWAV( doneEncoding );
@@ -35,6 +36,7 @@ function doneEncoding(blob) {
     var xhr = new XMLHttpRequest();
     xhr.open('POST', upload_url, true);
     xhr.setRequestHeader("X-CSRFToken", csrftoken);
+    xhr.setRequestHeader("id", participant_id);
     xhr.setRequestHeader("index", audio_index++);
 
     xhr.upload.onloadend = function() {
@@ -72,6 +74,7 @@ function gotStream(stream) {
 }
 
 function initAudio() {
+    audio_index = 0;
     if (question_index == question_list.length) {
         end_test();
     } else {
@@ -102,7 +105,45 @@ function initAudio() {
         });
 }
 
-window.addEventListener('load', initAudio );
+function getParticipantId() {
+    $.ajax({
+        url: get_latest_url,
+        data: {},
+        dataType: 'json',
+        success: function (data) {
+            participant_id = prompt('Enter participant id:', data.id);
+
+            if (participant_id == null) {
+                participant_id = parseInt(data.id);
+            } else {
+                participant_id = parseInt(participant_id);  
+            } 
+            
+            if (participant_id == data.id) {
+                setParticipantId(participant_id);
+            } else {
+                if (confirm('Sure you want to override?')) {
+                    setParticipantId(participant_id);
+                } else {
+                    location.reload();
+                }
+            }
+        }
+    });
+}
+
+function setParticipantId(participant_id) {
+    $.ajax({
+        url: set_latest_url,
+        data: {'id': participant_id},
+        dataType: 'json',
+        success: function (data) {
+            initAudio();
+        }
+    });
+}
+
+window.addEventListener('load', getParticipantId);
 
 function end_test() {
     question.innerText = 'Your test has ended.';
