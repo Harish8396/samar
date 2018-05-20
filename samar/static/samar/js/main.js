@@ -15,11 +15,11 @@
 
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
-var audioContext = new AudioContext();
+var audioContext = null;
 var audioRecorder = null;
-var question = document.getElementById('question');
-var controls = document.getElementById('controls');
 var audio_index;
+var folders = [];
+var filenames = [];
 var participant_id;
 
 function saveAudio() {
@@ -37,7 +37,11 @@ function doneEncoding(blob) {
     xhr.open('POST', upload_url, true);
     xhr.setRequestHeader("X-CSRFToken", csrftoken);
     xhr.setRequestHeader("id", participant_id);
-    xhr.setRequestHeader("index", audio_index++);
+    var folder = folders[audio_index];
+    var filename = filenames[audio_index];
+    audio_index++;
+    xhr.setRequestHeader("folder", folder);
+    xhr.setRequestHeader("filename", filename);
 
     xhr.upload.onloadend = function() {
         console.log('Upload complete');
@@ -46,26 +50,19 @@ function doneEncoding(blob) {
     xhr.send(blob);
 }
 
-function toggleRecording( e ) {
-    if (e.classList.contains("recording")) {
-        // stop recording
-        audioRecorder.stop();
-        e.classList.remove("recording");
-        audioRecorder.getBuffers( gotBuffers );
+function startRecording(data) {
+    // start recording
+    if (!audioRecorder)
+        return;
+    audioRecorder.clear();
+    audioRecorder.record();
+}
 
-        if (question_index == question_list.length) {
-            end_test();
-        } else {
-            question.innerText = question_list[question_index++];
-        }
-    } else {
-        // start recording
-        if (!audioRecorder)
-            return;
-        e.classList.add("recording");
-        audioRecorder.clear();
-        audioRecorder.record();
-    }
+function stopRecording(data) {
+    // stop recording
+    audioRecorder.stop();
+    $('#record').removeClass("recording");
+    audioRecorder.getBuffers(gotBuffers);
 }
 
 function gotStream(stream) {
@@ -73,13 +70,9 @@ function gotStream(stream) {
     audioRecorder = new Recorder(input, {'workerPath': worker_path});
 }
 
-function initAudio() {
+function initAudio(data) {
+    audioContext = new AudioContext();
     audio_index = 0;
-    if (question_index == question_list.length) {
-        end_test();
-    } else {
-        question.innerText = question_list[question_index++];
-    }
 
     if (!navigator.getUserMedia)
         navigator.getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
@@ -138,14 +131,9 @@ function setParticipantId(participant_id) {
         data: {'id': participant_id},
         dataType: 'json',
         success: function (data) {
-            initAudio();
+            // initAudio();
         }
     });
 }
 
 window.addEventListener('load', getParticipantId);
-
-function end_test() {
-    question.innerText = 'Your test has ended.';
-    controls.hidden = true;
-}

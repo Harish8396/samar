@@ -6,25 +6,40 @@
         <title>IIT-Delhi Experiment</title>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="{% static 'samar/js/recorder.js' %}"></script>
+        <script src="{% static 'samar/js/jspsych-6.0.2/jspsych.js' %}"></script>
+        <script src="{% static 'samar/js/jspsych-6.0.2/plugins/jspsych-html-keyboard-response.js' %}"></script>
+        <link href="{% static 'samar/js/jspsych-6.0.2/css/jspsych.css' %}" rel="stylesheet" type="text/css"></link>
         <script>
-            var question_index = 0;
-            var question_list = JSON.parse("{{ question_list|escapejs|safe }}").question_json_list;
-            console.log(question_list);
-            console.log(question_list.length);
+            var practice_list = JSON.parse("{{ practice_list|escapejs|safe }}");
+            var exp_list = JSON.parse("{{ exp_list|escapejs|safe }}");
+            var WELCOME = "{{ welcome }}";
+            var INSTRUCTS = JSON.parse("{{ instructs|escapejs|safe }}");
+            var PRACTICE = "{{ practice }}";
+            var CONT = "{{ cont }}";
+            var START = "{{ start }}";
+            var STOP = "{{ stop }}";
+            var READY = "{{ ready }}";
+            var END = "{{ end }}";
+            var BREAK = "{{ break }}";
+            var BREAK_INTVL = "{{ break_intvl }}";
+            var BREAK_START = "{{ break_start }}";
+            var BREAK_END = "{{ break_end }}";
+            console.log(exp_list);
             var worker_path = "{% static 'samar/js/recorderWorker.js' %}";
             var upload_url = "{% url 'samar:upload' %}";
             var get_latest_url = "{% url 'samar:get_latest' %}";
             var set_latest_url = "{% url 'samar:set_latest' %}";
+            var record_img = "{% static 'samar/images/mic128.png' %}";
         </script>
         <link rel="stylesheet" href="{% static 'samar/css/style.css' %}">
     </head>
     <body>
-        <div id="question">Your question appears here.</div>
+        <!-- <div id="question">Your question appears here.</div>
         <div id="controls">
             <img id="record" src="{% static 'samar/images/mic128.png' %}" onclick="toggleRecording(this);">
-            <!-- <a id="save" href="#"><img src="{% static 'samar/images/save.svg' %}"></a> -->
-        </div>
+        </div> -->
     </body>
     <script src="{% static 'samar/js/csrf_ajax.js' %}"></script>
     <script src="{% static 'samar/js/main.js' %}"></script>
+    <script src="{% static 'samar/js/jsPsych.js' %}"></script>
 </html>
