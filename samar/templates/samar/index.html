@@ -24,6 +24,8 @@
             var BREAK_INTVL = "{{ break_intvl }}";
             var BREAK_START = "{{ break_start }}";
             var BREAK_END = "{{ break_end }}";
+            var STYLE = JSON.parse("{{ style|escapejs|safe }}");
+            console.log(STYLE);
             console.log(exp_list);
             var worker_path = "{% static 'samar/js/recorderWorker.js' %}";
             var upload_url = "{% url 'samar:upload' %}";

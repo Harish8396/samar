@@ -87,7 +87,8 @@ def index(request):
         'break': BREAK,
         'break_intvl': BREAK_INTVL,
         'break_start': BREAK_START,
-        'break_end': BREAK_END
+        'break_end': BREAK_END,
+        'style': json.dumps(STYLE)
     })
 
 # TODO: remove csrf exempt. It is only a workaround and is insecure.

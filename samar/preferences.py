@@ -27,3 +27,4 @@ BREAK = 2
 BREAK_INTVL = 20
 BREAK_START = "This break is for " + str(BREAK_INTVL) + " seconds."
 BREAK_END = "This break has ended."
+STYLE = 'style="font-size: 18px;"'

@@ -4,7 +4,7 @@ var timeline = [];
 /* define welcome message trial */
 var welcome = {
     type: "html-keyboard-response",
-    stimulus: "<p>" + WELCOME + "</p>",
+    stimulus: '<p ' + STYLE + '> ' + WELCOME + ' </p>',
     on_finish: initAudio
 };
 timeline.push(welcome);
@@ -13,7 +13,7 @@ timeline.push(welcome);
 for (var idx = 0; idx < INSTRUCTS.length; idx++) {
     timeline.push({
         type: "html-keyboard-response",
-        stimulus: INSTRUCTS[idx],
+        stimulus: '<p ' + STYLE + '> ' + INSTRUCTS[idx] + ' </p>',
         choices: [' ']
     });
 }
@@ -21,7 +21,7 @@ for (var idx = 0; idx < INSTRUCTS.length; idx++) {
 /* practice test */
 var practice = {
     type: "html-keyboard-response",
-    stimulus: "<p>" + PRACTICE + "</p>",
+    stimulus: '<p ' + STYLE + '> ' + PRACTICE + ' </p>',
     choices: [' ']
 };
 timeline.push(practice);
@@ -45,7 +45,7 @@ for (var idx = 0; idx < practice_list.length; idx++) {
             timeline.push({
                 type: 'html-keyboard-response',
                 stimulus: '<img id="record" src="' + record_img + '">' +
-                '<p> ' + START + ' </p>',
+                '<p ' + STYLE + '> ' + START + ' </p>',
                 choices: [' ']
             });
 
@@ -53,14 +53,14 @@ for (var idx = 0; idx < practice_list.length; idx++) {
             timeline.push({
                 type: 'html-keyboard-response',
                 stimulus: '<img id="record" src="' + record_img + '" class="recording">' +
-                '<p> ' + STOP + ' </p>',
+                '<p ' + STYLE + '> ' + STOP + ' </p>',
                 choices: [' ']
             });
         } else {
             timeline.push({
                 type: 'html-keyboard-response',
                 stimulus: '<p> ' + cmd + ' </p>' +
-                '<p> ' + CONT + ' </p>',
+                '<p ' + STYLE + '> ' + CONT + ' </p>',
                 choices: [' ']
             });
         }
@@ -70,21 +70,21 @@ for (var idx = 0; idx < practice_list.length; idx++) {
 /* test trials */
 var ready = {
     type: "html-keyboard-response",
-    stimulus: "<p>" + READY + "</p>",
+    stimulus: '<p ' + STYLE + '> ' + READY + ' </p>',
     choices: [' ']
 };
 timeline.push(ready);
 
 var break_start = {
     type: "html-keyboard-response",
-    stimulus: "<p>" + BREAK_START + "</p>",
+    stimulus: '<p ' + STYLE + '> ' + BREAK_START + ' </p>',
     choices: jsPsych.NO_KEYS,
     trial_duration: 1000 * BREAK_INTVL
 };
 
 var break_end = {
     type: "html-keyboard-response",
-    stimulus: "<p>" + BREAK_END + "</p>",
+    stimulus: '<p ' + STYLE + '> ' + BREAK_END + ' </p>',
     choices: [' ']
 };
 
@@ -143,7 +143,7 @@ for (var break_idx = 0; true; break_idx++) {
             timeline.push({
                 type: 'html-keyboard-response',
                 stimulus: '<img id="record" src="' + record_img + '">' +
-                '<p> ' + START + ' </p>',
+                '<p ' + STYLE + '> ' + START + ' </p>',
                 choices: [' ']
             });
 
@@ -151,7 +151,7 @@ for (var break_idx = 0; true; break_idx++) {
             timeline.push({
                 type: 'html-keyboard-response',
                 stimulus: '<img id="record" src="' + record_img + '" class="recording">' +
-                '<p> ' + STOP + ' </p>',
+                '<p ' + STYLE + '> ' + STOP + ' </p>',
                 choices: [' '],
                 on_start: startRecording,
                 on_finish: stopRecording
@@ -160,7 +160,7 @@ for (var break_idx = 0; true; break_idx++) {
             timeline.push({
                 type: 'html-keyboard-response',
                 stimulus: '<p> ' + cmd + ' </p>' +
-                '<p> ' + CONT + ' </p>',
+                '<p ' + STYLE + '> ' + CONT + ' </p>',
                 choices: [' ']
             });
         }
@@ -213,7 +213,7 @@ for (var break_idx = 0; true; break_idx++) {
 
 var end = {
     type: "html-keyboard-response",
-    stimulus: "<p>" + END + "</p>",
+    stimulus: '<p ' + STYLE + '> ' + END + ' </p>',
     choices: jsPsych.NO_KEYS
 };
 timeline.push(end);
