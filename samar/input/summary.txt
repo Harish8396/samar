@@ -1,0 +1,16 @@
+Summary
+
+1. Fixation --, info --, question, recording--
+2. trigger event on spacebar --
+3. randomise order - pseudo random --
+4. user interface centre the question --
+5. preference file: break interval, break time, groups-subject allocation
+6. instructions
+7. folder: prime experiments in respective folders --
+8. filename: experiment id-item id-condition --
+
+# groups 4
+
+TODO:
+1. Display each line in a separate page. --
+2. load instructions from preference file.
