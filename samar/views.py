@@ -25,6 +25,7 @@ class Cond:
         self.cond = cond
         self.cmd_list = []
 
+# Returns a list of objects of type Cond. Front end displays these objects sequentially.
 def get_practice_list():
     filename = os.path.join(settings.BASE_DIR, 'samar/input/0item.dms')
     practice_list = []
@@ -39,6 +40,8 @@ def get_practice_list():
                 practice_list[-1].cmd_list.append(line)
     return practice_list
 
+# Returns a list of Exp objects each of which contains a list of Cond objects.
+# This enables the pseudo-random shuffle in which no two consecutive trials are from the same experiment.
 def get_exp_list(item_number):
     filename = os.path.join(settings.BASE_DIR, 'samar/input/' + str(item_number) + 'item.dms')
     exp_list = []
