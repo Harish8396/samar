@@ -15,5 +15,6 @@
         "list",
         "num",
         "struct"
-    ]
+    ],
+    "python.pythonPath": "/usr/bin/python2.7"
 }
