@@ -1,17 +1,14 @@
-/* Copyright 2013 Chris Wilson
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-*/
+/*
+ *  Contents:
+ *  --------
+ *  Contains logic to perform audio operations.
+ *  Makes appropriate ajax requests to back-end (audio upload, get and set participant id)
+ * 
+ *  Note:
+ *  -----
+ *  Make sure audio context resumes after user interaction is available.
+ *  Run and Tested on chrome, (unsure of correct execution on any other browser).
+ */
 
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
@@ -30,6 +27,9 @@ function gotBuffers(buffers) {
     audioRecorder.exportWAV( doneEncoding );
 }
 
+// Ajax request to upload url.
+// Header contains the following fields
+//  participant id, folder name, filename and a mandatory csrf field (required by django)
 function doneEncoding(blob) {
     var csrftoken = getCookie('csrftoken');
  
@@ -70,6 +70,8 @@ function gotStream(stream) {
     audioRecorder = new Recorder(input, {'workerPath': worker_path});
 }
 
+// Called in the onfinish callback of welcome screen
+// This is done to construct audio context after user interaction takes place.
 function initAudio(data) {
     audioContext = new AudioContext();
     audio_index = 0;
@@ -98,6 +100,7 @@ function initAudio(data) {
         });
 }
 
+// Ajax request to obtain participant id
 function getParticipantId() {
     $.ajax({
         url: get_latest_url,
@@ -125,6 +128,7 @@ function getParticipantId() {
     });
 }
 
+// Ajax request to set participant id
 function setParticipantId(participant_id) {
     $.ajax({
         url: set_latest_url,

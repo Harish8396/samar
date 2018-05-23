@@ -1,8 +1,13 @@
 /*
+ *  Contents:
+ *  ----------
+ *  Constructs the pipeline of trials to be executed.
+ *  Randomizes trials in appropriate order.
+ * 
  *  Control flow:
  *  -------------
- *  Welcome Screen --> Instruction pages --> Practice Screen -->
- *  Practice Trials --> Ready Page --> Experiment trials --> End of experiment
+ *  Welcome Screen (Also includes setting the participant id) --> Instruction pages --> 
+ *  Practice Screen --> Practice Trials --> Ready Page --> Experiment trials --> End of experiment
  *  
  *  Trial:
  *  ------
